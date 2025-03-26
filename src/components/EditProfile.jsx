@@ -32,13 +32,13 @@ const EditProfile = ({ user }) => {
         },
         { withCredentials: true }
       );
-      dispatch(addUser(res?.data?.data));
+      dispatch(addUser(res?.data?.data));//if adat is undefined here the changes must be
       setShowToast(true);
       setTimeout(() => {
         setShowToast(false);
       }, 3000);
     } catch (err) {
-      setError(err.response.data);
+      setError(err.res?.data);
     }
   };
 
