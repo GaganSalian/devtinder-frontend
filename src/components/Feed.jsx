@@ -17,7 +17,7 @@ const Feed = () => {
       });
       dispatch(addFeed(res?.data?.data));
     } catch (err) {
-      console.err("something in feed went wrong",err)
+      console.error("something in feed went wrong",err)
     }
   };
 
