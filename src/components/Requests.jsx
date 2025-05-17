@@ -2,7 +2,7 @@ import axios from "axios";
 import { BASE_URL } from "../utils/constants";
 import { useDispatch, useSelector } from "react-redux";
 import { addRequests, removeRequest } from "../utils/requestSlice";
-import { useEffect } from "react";
+import { useEffect,} from "react";
 
 const Requests = () => {
   const requests = useSelector((store) => store.requests);
@@ -10,14 +10,14 @@ const Requests = () => {
 
   const reviewRequest = async (status, _id) => {
     try {
-      const res = axios.post(
+      const res =await axios.post(
         BASE_URL + "/request/review/" + status + "/" + _id,
         {},
         { withCredentials: true }
       );
       dispatch(removeRequest(_id));
     } catch (err) {
-      console.err("request review went wrong",err)
+      console.error("request review went wrong",err)
     }
   };
 
@@ -27,7 +27,7 @@ const Requests = () => {
         withCredentials: true,
       });
 
-      dispatch(addRequests(res.data?.data));
+      dispatch(addRequests(res.data.data));
     } catch (err) {
       console.err("request recived went wrong",err)
 

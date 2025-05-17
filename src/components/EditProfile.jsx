@@ -5,42 +5,55 @@ import { BASE_URL } from "../utils/constants";
 import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 
-const EditProfile = ({ user }) => {
-  const [firstName, setFirstName] = useState(user.firstName);
-  const [lastName, setLastName] = useState(user.lastName);
-  const [photoUrl, setPhotoUrl] = useState(user.photoUrl);
-  const [age, setAge] = useState(user.age || "");
-  const [gender, setGender] = useState(user.gender || "");
-  const [about, setAbout] = useState(user.about || "");
-  const [error, setError] = useState("");
-  const dispatch = useDispatch();
-  const [showToast, setShowToast] = useState(false);
+const EditProfile = ({ user }) =>
+ {
+    
+    const [firstName, setFirstName] = useState(user.firstName);
+    const [lastName, setLastName] = useState(user.lastName);
+    const [photoUrl, setPhotoUrl] = useState(user.photoUrl);
+    const [age, setAge] = useState(user.age || "");
+    const [gender, setGender] = useState(user.gender || "");
+    const [about, setAbout] = useState(user.about || "");
+    const [error, setError] = useState("");
+    const dispatch = useDispatch();
+    const [showToast, setShowToast] = useState(false);
+  
 
-  const saveProfile = async () => {
-    //Clear Errors
-    setError("");
-    try {
-      const res = await axios.patch(
-        BASE_URL + "/profile/edit",
-        {
-          firstName,
-          lastName,
-          photoUrl,
-          age,
-          gender,
-          about,
-        },
-        { withCredentials: true }
-      );
-      dispatch(addUser(res?.data?.data));//if adat is undefined here the changes must be
-      setShowToast(true);
-      setTimeout(() => {
-        setShowToast(false);
-      }, 3000);
-    } catch (err) {
-      setError(err.res?.data);
-    }
-  };
+
+        const saveProfile = async () => {
+          console.log("save button clikked")
+         //Clear Errors
+         setError("");
+         
+         try {
+           const res = await axios.patch(
+              BASE_URL + "/profile/edit",
+             {
+               firstName,
+               lastName,
+               photoUrl,
+               age,
+               gender,
+               about,
+             },
+              { withCredentials: true, }
+           );
+           console.log("FULL RESPONSE:", res);
+
+            console.log("Profile updated:", res?.data?.data);
+            const updatedUser = res.data.data;
+            dispatch(addUser(updatedUser));//if adat is undefined here the changes must be
+            console.log("Profile updated:", updatedUser);
+            setShowToast(true);
+            setTimeout(() => {
+              setShowToast(false);
+           }, 3000);
+          } catch (err) {
+          
+            setError(err.response?.data?.error || "Something went wrong");
+
+         }
+       };
 
   return (
     <>

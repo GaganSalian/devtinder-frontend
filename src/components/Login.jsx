@@ -7,6 +7,7 @@ import { BASE_URL } from "../utils/constants";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("");
+  const [showPassword, setShowPassword] = useState(false)
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -25,6 +26,7 @@ const Login = () => {
         },
         { withCredentials: true }
       );
+      console.log(res.data)
       dispatch(addUser(res.data));
       return navigate("/");
     } catch (err) {
@@ -96,11 +98,18 @@ const Login = () => {
                 <span className="label-text">Password</span>
               </div>
               <input
-                type="password"
+                type={showPassword ? "text" : "password"}
                 value={password}
                 className="input input-bordered w-full max-w-xs"
                 onChange={(e) => setPassword(e.target.value)}
               />
+               <button
+    type="button"
+    onClick={() => setShowPassword((prev) => !prev)}
+    className="absolute right-10 top-1/2 transform -translate-y-1/2 text-sm"
+  >
+    {showPassword ? "Hide" : "Show"}
+  </button>
             </label>
           </div>
           <p className="text-red-500">{error}</p>
