@@ -50,15 +50,16 @@ export default Feed;
 
 // const Feed = () => {
 //   const feed = useSelector((store) => store.feed);
+//   console.log("Current feed in component:", feed);
 //   const dispatch = useDispatch();
 
 //   const getFeed = async () => {
-//     if (feed.length > 0) return; // ✅ skip fetch only if feed already has users
+//     if (feed.length > 0) return; // ✅ skip if already loaded
 //     try {
 //       const res = await axios.get(BASE_URL + "/feed", {
 //         withCredentials: true,
 //       });
-//       dispatch(addFeed(res?.data?.data || [])); // ensure array
+//       dispatch(addFeed(res?.data?.data || []));
 //     } catch (err) {
 //       console.error("Something in feed went wrong", err);
 //     }
@@ -68,14 +69,14 @@ export default Feed;
 //     getFeed();
 //   }, []);
 
-//   if (!Array.isArray(feed)) return null; // safety check
+//   if (!Array.isArray(feed)) return null;
 
 //   if (feed.length === 0)
 //     return <h1 className="flex justify-center my-10">No new users found!</h1>;
 
 //   return (
 //     <div className="flex justify-center my-10">
-//       <UserCard user={feed[0]} />
+//       <UserCard  user={feed[0]} />
 //     </div>
 //   );
 // };

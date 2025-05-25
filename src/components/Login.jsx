@@ -4,10 +4,11 @@ import { useDispatch } from "react-redux";
 import { addUser } from "../utils/userSlice";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "../utils/constants";
+import { Eye, EyeOff } from "lucide-react";
 
 const Login = () => {
   const [emailId, setEmailId] = useState("");
-  const [showPassword, setShowPassword] = useState(false)
+  const [showPassword, setShowPassword] = useState(false);
   const [password, setPassword] = useState("");
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -26,7 +27,6 @@ const Login = () => {
         },
         { withCredentials: true }
       );
-      console.log(res.data)
       dispatch(addUser(res.data));
       return navigate("/");
     } catch (err) {
@@ -50,7 +50,7 @@ const Login = () => {
 
   return (
     <div className="flex justify-center my-10">
-      <div className="card bg-base-300 w-96 shadow-xl">
+      <div className="card bg-base-300 w-96 shadow-2xl">
         <div className="card-body">
           <h2 className="card-title justify-center">
             {isLoginForm ? "Login" : "Sign Up"}
@@ -82,6 +82,7 @@ const Login = () => {
                 </label>
               </>
             )}
+
             <label className="form-control w-full max-w-xs my-2">
               <div className="label">
                 <span className="label-text">Email ID:</span>
@@ -93,26 +94,31 @@ const Login = () => {
                 onChange={(e) => setEmailId(e.target.value)}
               />
             </label>
+
             <label className="form-control w-full max-w-xs my-2">
               <div className="label">
-                <span className="label-text">Password</span>
+                <span className="label-text">Password:</span>
               </div>
-              <input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                className="input input-bordered w-full max-w-xs"
-                onChange={(e) => setPassword(e.target.value)}
-              />
-               <button
-    type="button"
-    onClick={() => setShowPassword((prev) => !prev)}
-    className="absolute right-10 top-1/2 transform -translate-y-1/2 text-sm"
-  >
-    {showPassword ? "Hide" : "Show"}
-  </button>
+              <div className="relative w-full">
+                <input
+                  type={showPassword ? "text" : "password"}
+                  value={password}
+                  className="input input-bordered w-full pr-10"
+                  onChange={(e) => setPassword(e.target.value)}
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  className="absolute right-3 top-1/2 transform -translate-y-1/2 text-sm"
+                >
+                  {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+                </button>
+              </div>
             </label>
           </div>
+
           <p className="text-red-500">{error}</p>
+
           <div className="card-actions justify-center m-2">
             <button
               className="btn btn-primary"
@@ -135,4 +141,5 @@ const Login = () => {
     </div>
   );
 };
+
 export default Login;
