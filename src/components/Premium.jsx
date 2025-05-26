@@ -101,7 +101,7 @@ const Premium = () => {
   const [isPremium, setIsPremium] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  /* ── verify premium once ─────────────────────────────── */
+  // ── verify premium once ─
   useEffect(() => {
     (async () => {
       try {
@@ -117,9 +117,23 @@ const Premium = () => {
     })();
   }, []);
 
-  /* ── buy handler ─────────────────────────────────────── */
+  // ── buy handler ─
   const handleBuy = async (type) => {
     try {
+      // Step 1: Dynamically load Razorpay SDK
+      const script = document.createElement("script");
+      script.src = "https://checkout.razorpay.com/v1/checkout.js";
+      script.async = true;
+
+      const scriptLoaded = new Promise((resolve, reject) => {
+        script.onload = () => resolve(true);
+        script.onerror = () => reject("Razorpay SDK failed to load");
+      });
+
+      document.body.appendChild(script);
+      await scriptLoaded;
+
+      // Step 2: Get order info from backend
       const { data } = await axios.post(
         `${BASE_URL}/payment/create`,
         { membershipType: type },
@@ -128,6 +142,7 @@ const Premium = () => {
 
       const { amount, keyId, currency, notes, orderId } = data;
 
+      // Step 3: Create Razorpay instance
       const rzp = new window.Razorpay({
         key: keyId,
         amount,
@@ -150,7 +165,7 @@ const Premium = () => {
     }
   };
 
-  /* ── simple states ───────────────────────────────────── */
+  // ── loading state ─
   if (loading)
     return (
       <p className="mt-20 text-center text-lg text-base-content/70">
@@ -158,6 +173,7 @@ const Premium = () => {
       </p>
     );
 
+  // ── premium check ─
   if (isPremium)
     return (
       <h1 className="mt-20 text-center text-3xl font-bold text-primary">
@@ -165,7 +181,7 @@ const Premium = () => {
       </h1>
     );
 
-  /* ── pricing cards ───────────────────────────────────── */
+  // ── pricing cards ─
   const plans = [
     {
       tier: "Silver",
