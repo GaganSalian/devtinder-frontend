@@ -167,7 +167,7 @@ const EditProfile = ({ user }) => {
   const [lastName, setLastName] = useState(user.lastName || "");
   const [photoUrl, setPhotoUrl] = useState(user.photoUrl || "");
   const [age, setAge] = useState(user.age || "");
-  const [gender, setGender] = useState(user.gender || "");
+  const [gender, setGender] = useState(user.gender?.toLowerCase() || "");
   const [about, setAbout] = useState(user.about || "");
   const [error, setError] = useState("");
   const [showToast, setShowToast] = useState(false);
@@ -198,7 +198,7 @@ const EditProfile = ({ user }) => {
             Edit Profile
           </h2>
 
-          {/* Input Fields */}
+          {/* First Name */}
           <label className="form-control w-full my-3">
             <div className="label">
               <span className="label-text text-base-content">First Name</span>
@@ -211,6 +211,7 @@ const EditProfile = ({ user }) => {
             />
           </label>
 
+          {/* Last Name */}
           <label className="form-control w-full my-3">
             <div className="label">
               <span className="label-text text-base-content">Last Name</span>
@@ -223,6 +224,7 @@ const EditProfile = ({ user }) => {
             />
           </label>
 
+          {/* Photo URL */}
           <label className="form-control w-full my-3">
             <div className="label">
               <span className="label-text text-base-content">Photo URL</span>
@@ -235,12 +237,13 @@ const EditProfile = ({ user }) => {
             />
           </label>
 
+          {/* Age */}
           <label className="form-control w-full my-3">
             <div className="label">
               <span className="label-text text-base-content">Age</span>
             </div>
             <input
-              type="text"
+              type="number"
               value={age}
               onChange={(e) => setAge(e.target.value)}
               className="input input-bordered input-primary w-full bg-base-100 text-base-content"
@@ -258,12 +261,13 @@ const EditProfile = ({ user }) => {
               className="select select-bordered select-primary w-full bg-base-100 text-base-content"
             >
               <option value="" disabled>Select gender</option>
-              <option value="Male">Male</option>
-              <option value="Female">Female</option>
-              <option value="Other">Other</option>
+              <option value="male">Male</option>
+              <option value="female">Female</option>
+              <option value="other">Other</option>
             </select>
           </label>
 
+          {/* About */}
           <label className="form-control w-full my-3">
             <div className="label">
               <span className="label-text text-base-content">About</span>
@@ -276,8 +280,10 @@ const EditProfile = ({ user }) => {
             />
           </label>
 
+          {/* Error */}
           {error && <p className="text-red-500 text-sm mt-2">{error}</p>}
 
+          {/* Save Button */}
           <div className="text-center mt-6">
             <button
               className="btn btn-primary btn-wide shadow-md hover:shadow-lg transition-all duration-200"
@@ -288,9 +294,11 @@ const EditProfile = ({ user }) => {
           </div>
         </div>
 
+        {/* User Preview Card */}
         <UserCard user={{ firstName, lastName, photoUrl, age, gender, about }} />
       </div>
 
+      {/* Toast */}
       {showToast && (
         <div className="toast toast-top toast-center z-50">
           <div className="alert alert-success bg-green-500 text-white shadow-lg">
